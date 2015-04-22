@@ -33,6 +33,7 @@ public class Account_Manager extends Frame implements ActionListener,WindowListe
 	private int creditv;
 	private int i;
 	private DefaultTableModel dtm;
+
 	
 	public Account_Manager() {
 		
@@ -123,6 +124,7 @@ public class Account_Manager extends Frame implements ActionListener,WindowListe
 					addnew.add(enter);
 		
 					clear=new Button("clear");
+					//clear.setEnabled(false);
 					clear.addActionListener(this);
 					addnew.add(clear);
 			setVisible(true);
@@ -141,6 +143,8 @@ public class Account_Manager extends Frame implements ActionListener,WindowListe
 		
 	System.exit(0);	*/
 	}
+
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -153,12 +157,14 @@ public class Account_Manager extends Frame implements ActionListener,WindowListe
 			Object[] rowdata={dscrptnt.getText(),debittn.getText(),credittn.getText()};
 			dtm.addRow(rowdata);
 		} else if(clicked==clear){
-			creditv=0;
-			debitv=0;
-			for(i=dtm.getRowCount()-1;i>=0;i--)
-				dtm.removeRow(i);
+			if(dtm.getRowCount()!=0){
+				creditv=creditv - Integer.parseInt((String)table.getModel().getValueAt(dtm.getRowCount()-1,2));
+				debitv=debitv-   Integer.parseInt((String)table.getModel().getValueAt(dtm.getRowCount()-1,1));
+				//for(i=dtm.getRowCount()-1;i>=0;i--)
+					//dtm.removeRow(i);
+				dtm.removeRow(dtm.getRowCount()-1);
+			}
 		}
-
 		creditt.setText(Integer.toString(creditv));
 		debitt.setText(Integer.toString(debitv));
 		balancet.setText(Integer.toString(creditv-debitv));
